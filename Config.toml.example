@@ -8,5 +8,10 @@ message_xp = 10 # xp per message
 base_xp = 50 # xp required for second level
 xp_factor = 1.05 # increase xp requirement by x% each level
 
+[blacklist]
+categories = [ 1208937577684668507 ]
+# or if you dont want to blacklist anything then
+# categories = []
+
 [database]
 redis = "redis://username:password@address/"

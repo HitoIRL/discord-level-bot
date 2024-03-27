@@ -41,6 +41,11 @@ struct LevelsConfig {
 }
 
 #[derive(Clone, Deserialize)]
+struct BlacklistConfig {
+    categories: Vec<u64>,
+}
+
+#[derive(Clone, Deserialize)]
 struct DatabaseConfig {
     redis: String,
 }
@@ -49,6 +54,7 @@ struct DatabaseConfig {
 struct Config {
     discord: DiscordConfig,
     levels: LevelsConfig,
+    blacklist: BlacklistConfig,
     database: DatabaseConfig,
 }
 
@@ -66,8 +72,13 @@ async fn on_message(ctx: &serenity::Context, data: &Data, msg: &Message) -> Resu
         return Ok(());
     }
 
-    leveling::on_message(ctx, data, msg).await?;
+    // check if the message was sent in blacklisted category
+    let category_id = msg.category_id(&ctx).await.unwrap(); // safe unwrap I guess because we checked if the message was sent in a guild
+    if data.config.blacklist.categories.contains(&category_id.get()) {
+        return Ok(());
+    }
 
+    leveling::on_message(ctx, data, msg).await?;
     Ok(())
 }
 
