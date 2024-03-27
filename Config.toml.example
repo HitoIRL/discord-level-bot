@@ -1,0 +1,12 @@
+[discord]
+token = "discord_token" # https://discord.com/developers/applications
+
+[levels]
+channel = 895334679308300349 # channel to send level up messages
+cooldown = 25 # seconds
+message_xp = 10 # xp per message
+base_xp = 50 # xp required for second level
+xp_factor = 1.05 # increase xp requirement by x% each level
+
+[database]
+redis = "redis://username:password@address/"
